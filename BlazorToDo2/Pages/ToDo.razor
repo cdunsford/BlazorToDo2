@@ -1,0 +1,53 @@
+﻿@page "/todo"
+<h3>ToDo (@taskList.Count(todo=> !todo.IsComplete))</h3>
+
+<ul class="list-unstyled">
+    @foreach (var item in taskList)
+    {
+    <li class="mb-1">
+        <input type="checkbox" @bind="item.IsComplete" />
+
+        @{
+            if (item.IsComplete)
+            {
+                <input @bind="item.Title" placeholder="Input task here..." class="bg-success" />
+            }
+            else
+                {
+                    <input @bind="item.Title" placeholder="Input task here..." class="bg-danger"/>
+                }
+
+        }
+
+
+
+    </li>
+
+
+    }
+</ul>
+
+<input placeholder="Input Task..." @bind="userTask" />
+<button @onclick="addTask">Add Task</button>
+
+@code {
+    string userTask = string.Empty;
+    //bool isDone = false;
+
+    IList<ToDoItems> taskList = new List<ToDoItems>();
+
+    private void addTask()
+    {
+        if(string.IsNullOrWhiteSpace(userTask))
+        {
+            return;
+        }
+        taskList.Add(new ToDoItems { IsComplete = false, Title = userTask });
+        userTask = string.Empty;
+
+    }
+
+
+
+
+}
